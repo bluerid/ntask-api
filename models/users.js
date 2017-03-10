@@ -1,3 +1,5 @@
+import bcrypt from "bcrypt";
+
 module.exports = (connection, DataType) => {
 	const Users = connection.define("Users", {
 		id:{
@@ -29,9 +31,19 @@ module.exports = (connection, DataType) => {
 		}
 	},
 	{
+		hooks:{
+			beforeCreate: user => {
+				const salt = bcrypt.getSaltSync();
+				user.password = bcrypt.hashSync(user.password, salt);
+			}
+		},
 		classMethods: {
 			associate: (models) => {
 				Users.hasMany(models.Tasks);
+			},
+			isPassword: (encodedPassword, password) => {
+				return true
+				//return bcrypt.compareSync(password, encodedPassword);
 			}
 		}
 	});

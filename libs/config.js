@@ -6,5 +6,7 @@ module.exports = {
 		dialect : 'mysql',
 		port: 3306,
 		host : 'localhost'
-	}
+	},
+	jwtSecret:"Nta$K-AP1",
+	jwtSession: { session: false }
 }

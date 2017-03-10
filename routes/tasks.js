@@ -8,6 +8,7 @@ module.exports = app => {
 	});
 	*/
 	app.route('/tasks')
+		.all(app.auth.authenticate())
 		.get((req, res)	=> {
 			//Tasks: List tasks.
 			Tasks.findAll({}).then(
