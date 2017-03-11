@@ -11,7 +11,9 @@ module.exports = app => {
 		.all(app.auth.authenticate())
 		.get((req, res)	=> {
 			//Tasks: List tasks.
-			Tasks.findAll({}).then(
+			Tasks.findAll({
+				where: { UserId: req.user.id }
+			}).then(
 				result => res.json(result)
 			).catch(error => {
 				res.status(412).json({msg:error.message})
@@ -19,6 +21,7 @@ module.exports = app => {
 		})
 		.post((req, res) => {
 			//Save Tasks: Save Task.
+			req.body.UserId = req.user.id;
 			Tasks.create(req.body).then(
 				result => res.json(result)
 			).catch(error => {
