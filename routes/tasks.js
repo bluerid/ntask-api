@@ -30,34 +30,44 @@ module.exports = app => {
 		});
 
 	app.route('/tasks/:id')
+		.all(app.auth.authenticate())
 		.get((req, res)	=> {
 			//Tasks: Find task with id @param {id}.
-			Tasks.findOne({where: req.params})
-				.then(result => {
-					if(result){
-						res.json(result);
-					}else{
-						res.sendStatus(404);
-					}
-				})
-				.catch(error => {
-					res.status(412).json({msg: error.message});
-				});
+			Tasks.findOne({where: {
+				id:req.params.id,
+				UserId:req.user.id
+			}})
+			.then(result => {
+				if(result){
+					res.json(result);
+				}else{
+					res.sendStatus(404);
+				}
+			})
+			.catch(error => {
+				res.status(412).json({msg: error.message});
+			});
 		})
 		.put((req, res) => {
 			//Update Task: Update Task with id @param {id}.
-			Tasks.update(req.body, {where: req.params})
-				.then(result => res.sendStatus(204))
-				.catch(error => {
-					res.status(412).json({msg: error.message});
-				});
+			Tasks.update(req.body, {where: {
+				id:req.params.id,
+				UserId:req.user.id
+			}})
+			.then(result => res.sendStatus(204))
+			.catch(error => {
+				res.status(412).json({msg: error.message});
+			});
 		})
 		.delete((req, res) => {
 			//Delete task with id @param {id}
-			Tasks.destroy({where: req.params})
-				.then(result => res.sendStatus(204))
-				.catch(error => {
-					res.status(412).json({msg: error.message});
-				});
+			Tasks.destroy({where: {
+				id:req.params.id,
+				UserId:req.user.id
+			}})
+			.then(result => res.sendStatus(204))
+			.catch(error => {
+				res.status(412).json({msg: error.message});
+			});
 		});
 }

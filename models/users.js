@@ -33,7 +33,7 @@ module.exports = (connection, DataType) => {
 	{
 		hooks:{
 			beforeCreate: user => {
-				const salt = bcrypt.getSaltSync();
+				const salt = bcrypt.genSaltSync();
 				user.password = bcrypt.hashSync(user.password, salt);
 			}
 		},
@@ -42,8 +42,7 @@ module.exports = (connection, DataType) => {
 				Users.hasMany(models.Tasks);
 			},
 			isPassword: (encodedPassword, password) => {
-				return true
-				//return bcrypt.compareSync(password, encodedPassword);
+				return bcrypt.compareSync(password, encodedPassword);
 			}
 		}
 	});
