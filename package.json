@@ -4,7 +4,8 @@
   "description": "Task list API",
   "main": "index.js",
   "scripts": {
-    "start": "babel-node index.js"
+    "start": "babel-node index.js",
+    "test": "NODE_ENV=test mocha test/**/*.js"
   },
   "keywords": [],
   "author": "Palash Chanda <bluerid1986@gmail.com>",
@@ -21,5 +22,11 @@
     "passport-jwt": "^2.2.1",
     "path": "^0.12.7",
     "sequelize": "^3.30.2"
+  },
+  "devDependencies": {
+    "babel-register": "^6.24.0",
+    "chai": "^3.5.0",
+    "mocha": "^3.2.0",
+    "supertest": "^3.0.0"
   }
 }

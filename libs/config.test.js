@@ -7,6 +7,6 @@ module.exports = {
 		port: 3306,
 		host : 'localhost'
 	},
-	jwtSecret:"Nta$K-AP1",
+	jwtSecret:"NTASK-TEST",
 	jwtSession: { session: false }
 }
