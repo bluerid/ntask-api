@@ -53,20 +53,37 @@ describe("Routes: Tasks", () => {
 	describe("POST /tasks/", () => {
 		describe("status 200", () => {
 			it("Creates a new task", done => {
-				done();
+				request.post('/tasks')
+				.set('Authorization', `JWT ${token}`)
+				.send({'title' : 'Run'})
+				.expect(200)
+				.end((err, res) => {
+					expect(res.body.title).to.eql('Run');
+					expect(res.body.done).to.be.false;
+					done(err);
+				});
 			});
 		});
 	});
 
 	describe("GET /tasks/:id", () => {
 		describe("status 200", () => {
-			it("Returns one particular task for the give id", done => {
-				done();
+			it("Returns one particular task for the given id", done => {
+				request.get(`/tasks/${fakeTask.id}`)
+				.set('Authorization', `JWT ${token}`)
+				.expect(200)
+				.end((err, res)=>{
+					expect(res.body.title).to.eql("Work");
+					done(err);	
+				});
 			});
 		});
 		describe("status 400", () => {
 			it("Throws error when the task does not exist", done => {
-				done();
+				request.get("/tasks/0")
+				.set("Authorization", `JWT ${token}`)
+				.expect(404)
+				.end((err, res) => done(err));
 			});		
 		});
 	});
@@ -74,7 +91,14 @@ describe("Routes: Tasks", () => {
 	describe("PUT /tasks/:id", () => {
 		describe("status 204", () => {
 			it("Updates a particular task", done => {
-				done();
+				request.put(`/tasks/${fakeTask.id}`)
+				.set("Authorization", `JWT ${token}`)
+				.send({
+					title: "Travel",
+					done: true
+				})
+				.expect(204)
+				.end((err, res) => done(err));
 			});
 		});
 	});
@@ -82,10 +106,13 @@ describe("Routes: Tasks", () => {
 	describe("DELETE /tasks/:id", () => {
 		describe("status 204", () => {
 			it("Deletes a particular task", done => {
-				done();
+				request.delete(`/tasks/${fakeTask.id}`)
+				.set("Authorization", `JWT ${token}`)
+				.expect(204)
+				.end((err, res)=>{
+					done(err)
+				})
 			});
 		});
 	});
-
-
 });

@@ -1,14 +1,24 @@
 module.exports = app => {
 	const Tasks = app.db.models.Tasks;
-	/*
-	app.get('/tasks', (req, res) => {
-		Tasks.findAll({}).then(tasks => {
-			res.json({tasks: tasks})
-		});
-	});
-	*/
+
 	app.route('/tasks')
 		.all(app.auth.authenticate())
+		/**
+		 * @api {get} /tasks List the user's tasks
+		 * @apiGroup Tasks
+		 * @apiHeader {String} Authorization Token of authenticated user
+		 * @apiSuccess {Number} id Task id
+		 * @apiSuccessExample {json} Success
+		 * HTTP/1.1 200 OK
+		 * {
+		 *   "id": 1,
+		 *   "title": "Study",
+		 *   "done": false,
+		 *   "updated_at": "2016-02-10T15:46:51.778Z",
+		 *   "created_at": "2016-02-10T15:46:51.778Z",
+		 * 	 "UserId": 1
+		 * }
+		 */
 		.get((req, res)	=> {
 			//Tasks: List tasks.
 			Tasks.findAll({

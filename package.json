@@ -4,8 +4,16 @@
   "description": "Task list API",
   "main": "index.js",
   "scripts": {
-    "start": "babel-node index.js",
-    "test": "NODE_ENV=test mocha test/**/*.js"
+    "start": "npm run apidoc && babel-node index.js",
+    "apidoc": "apidoc -i routes/ -o public/apidoc",
+    "test": "NODE_ENV=test mocha test/**/*.js",
+    "clusters": "babel-node clusters.js"
+  },
+  "apidoc": {
+    "name": "Node Task API - Documentation",
+    "template": {
+      "forceLanguage": "en"
+    }
   },
   "keywords": [],
   "author": "Palash Chanda <bluerid1986@gmail.com>",
@@ -15,6 +23,7 @@
     "bcrypt": "^1.0.2",
     "body-parser": "^1.17.1",
     "consign": "^0.1.2",
+    "cors": "^2.8.1",
     "express": "^4.15.1",
     "jwt-simple": "^0.5.1",
     "mysql": "^2.13.0",
@@ -24,6 +33,7 @@
     "sequelize": "^3.30.2"
   },
   "devDependencies": {
+    "apidoc": "^0.17.5",
     "babel-register": "^6.24.0",
     "chai": "^3.5.0",
     "mocha": "^3.2.0",
